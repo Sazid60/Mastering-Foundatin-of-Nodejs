@@ -221,3 +221,14 @@ fs.readFile('./texts/read.txt','utf-8', (err,data) =>{
 
 console.log('Testing Asynchronous');
 ```
+
+## 7-4 Event driven architecture, create your own events
+- Node.js core modules each are events
+  
+- [Node.js Events API](https://nodejs.org/docs/latest/api/events.html)
+
+- Flow  : Cousin sent to shop to buy a chips. he will come back and call me that "vaiyya chips ansi" 
+- Event Emitter(special type of instance object ) -->Event Listener --> CallaBack.
+- The thing happening here is emitter will be emitting and event listener will listen and call the callback 
+
+### Event Emitter
