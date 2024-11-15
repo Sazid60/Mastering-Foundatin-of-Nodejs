@@ -260,3 +260,62 @@ myEmitter.emit('birthday', 'watch')
 // whenever the birthday is emitted the event listener will be called
 // here watch is gift parameter which will be received in second listener
 ```
+
+## 7-5 Stream and buffer, create your own server
+- Buffer is used to process a full data piece by piece and sending one by one. Its like making several part consisting of pieces of data and the several parts are individually called buffer.
+- Stream is a process which helps to flow data from one place to another place 
+- Assume we have a pizza and we have sliced into different pieces and gave to different person. It is called streaming. If the slicing takes time it is called buffering. 
+
+### Advantages of using buffer and streaming
+- It is better in terms of user experience
+- Needs short memory storage as it do not complete whole process at once. 
+
+### Different Types of streaming
+1. **Readable Stream** : a stream where we can read data (ex: http req, fs.readStream)
+2. **Writeable Stream** : a stream where we can write data (ex: http response, fs.writeStream)
+3. **Duplex Stream** : a stream for both write and read. 
+4. **Transform Stream** : a stream where we can reshape data.
+
+### What is Back Pressure?
+- In Node.js, back pressure is a phenomenon that occurs when the rate of data being written to a stream exceeds the rate at which the data can be read and processed. It's an important concept in stream handling to ensure efficient resource utilization and avoid memory overflow or application crashes.
+
+#### Streaming comes with the solution of back pressure. 
+- [HTTP Create Server Documentation](https://nodejs.org/docs/latest/api/http.html#httpcreateserveroptions-requestlistener)
+
+- Buffer less streaming
+```js
+// stream-buffer.js
+
+const http = require('http');
+const fs = require('fs')
+// creating server using raw node.js
+
+// http.createServer([options][, requestListener])
+
+const server = http.createServer()
+
+// listener
+server.on('request', (req, res) => {
+    // console.log(req);
+    // console.log(req.url, req.method);
+    if (req.url === '/read-file' && req.method === 'GET');
+
+    // fs.createReadStream(path[, options])
+    // streaming file reading
+    // const readableStream = fs.createReadStream(process.cwd() +'/texts/read.txt') //same kaj 
+    const readableStream = fs.createReadStream(__dirname + '/texts/read.txt')
+
+    readableStream.on('data', (buffer) => {
+        res.write(buffer)
+    })
+
+    readableStream.on('end', () => {
+        res.end('Hello From Atipara')
+    })
+
+})
+
+server.listen(5000, () => {
+    console.log('Server running from atipara');
+})
+```
