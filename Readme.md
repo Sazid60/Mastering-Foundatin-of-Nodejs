@@ -1,6 +1,6 @@
 # Mastering Foundation of Express.js 
 
-## Module-7-0 What is Node.js a high level overview of node.js
+## Module-7-1 What is Node.js a high level overview of node.js
 - **Node.js** : Node.js is a ru time which runs javascript in server side. It converts javascript into V8 engine understandable machine code. 
 ### Node.js provides some modules:
 - operating system modules
@@ -28,7 +28,7 @@
   - **Thread Pool** : 1. Cpu Intensive tasks, 2. File Access, 3. File Compression, 4. Cryptography
 - Node.js transfers the intensive tasks to thread pool so that it takes less memory to make a task done.  
 
-## Module-7-1 What is module, commonjs vs esm
+## Module-7-2 What is module, commonjs vs esm
 
 ### What is module ? 
 - A module is an **isolated** (globally not accessible) and **reuseable** block of code that has its **Own Scope**.
@@ -115,19 +115,20 @@ console.log(a2);
 console.log(myModule);
 ```
 
-#### Builtin Modules :
+#### Builtin Path Modules :
+
+- The path module in Node.js provides utilities for working with file and directory paths. It is particularly useful for manipulating and resolving file paths in a platform-independent way, ensuring your application runs consistently across operating systems like Windows, macOS, and Linux.
+- learning link 
+[Node.js Path Module Documentation](https://nodejs.org/docs/latest/api/path.html)
+
 - Path Modules
   ![alt text](image.png)
 
-- learning link 
-```js
-https://nodejs.org/docs/latest/api/path.html
-```
 - Example 
 ```javascript
 // index.js
 
-// Builtin Modules
+// Builtin path Modules
 
 const path = require("path")
 
@@ -153,3 +154,70 @@ path.join('/D:/WORK/LEVEL-2/Mission-2/Module-3-Mastering-Foundatin-of-Expressjs/
 
 ```
 
+## Module-7-3 Built in File System Module , synchronous vs asynchronous
+
+### Synchronous file system 
+ - The fs.readFileSync method in Node.js is used to read the contents of a file synchronously. It is part of the fs (file system) module and is useful when you need to read a file and process its content before continuing with the rest of your program.
+ - [Node.js fs.readFileSync Documentation](https://nodejs.org/docs/latest/api/fs.html#fsreadfilesyncpath-options)
+
+- The fs.writeFileSync method in Node.js is used to write data to a file synchronously. It is part of the fs (file system) module and ensures that the file is written before proceeding with the next line of code. This makes it a blocking operation, which is why it should be used with caution in certain scenarios.
+  
+- [Node.js fs.writeFileSync Documentation](https://nodejs.org/docs/latest/api/fs.html#fswritefilesyncfile-data-options)
+
+
+```javascript
+// file.js
+const fs = require('fs')
+
+// __________________ Reading a text
+// const readText = fs.readFileSync('./read.txt')
+// console.log(readText);
+// in the console we will get buffer
+{/* <Buffer 4c 6f 72 65 6d 20 69 70 73 75 6d 20 64 6f 6c 6f 72 20 73 69 74 20 61 6d 65 74 2c 20 63 6f 6e 73 65 63 74 65 74 75 72 20 61 64 69 70 69 73 63 69 6e 67 ... 89959 more bytes> */ }
+
+
+// if we want encoded text we have to use utf-8 with it
+const readText = fs.readFileSync('./texts/read.txt', 'utf-8')
+// console.log(readText);
+
+// __________________ Writing a text a text
+const writtenText = fs.writeFileSync('./texts/write.txt', readText + ' This is my written text');
+  console.log('File written successfully');
+
+  const readWrittenText = fs.readFileSync('./texts/write.txt', 'utf-8')
+
+  console.log(readWrittenText);
+  
+```
+- This is happening in synchronous way. and this is a blocking behavior.
+
+- If we work files like this like we want works to be done in parallel way we have to do in asynchronous way. This is node.js architecture. we will send the heave tasks to the thread pool.
+
+### Asynchronous file system 
+
+- [Node.js fs.readFile Documentation](https://nodejs.org/docs/latest/api/fs.html#fsreadfilepath-options-callback)
+- [Node.js fs.writeFile Documentation](https://nodejs.org/docs/latest/api/fs.html#fswritefilefile-data-options-callback)
+
+```javascript
+const fs = require("fs")
+
+
+// reading text asynchronously . This follows error callback patter
+// fs.writeFile(file, data[, options], callback)
+fs.readFile('./texts/read.txt','utf-8', (err,data) =>{
+    if(err){
+        throw Error("ERROR Reading Text")
+    }
+    console.log(data);
+
+    // writing text asynchronously
+    // fs.writeFile(file, data[, options], callback)
+    fs.writeFile('./texts/write.txt', data, 'utf-8',(err)=>{
+        if(err){
+            throw Error("Error Writing Data")
+        }
+    })
+})
+
+console.log('Testing Asynchronous');
+```
