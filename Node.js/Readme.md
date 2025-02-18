@@ -62,6 +62,9 @@
 
 #### Local Module :
 
+- we will use module.export = { } To export anything using common js
+- we will use const { a: a2, add: add2 } = require("./local-2.js"); to import the exported thing
+
 ```javascript
 // local-1.js
 
@@ -174,6 +177,23 @@ path.join(
   "/D:/WORK/LEVEL-2/Mission-2/Module-3-Mastering-Foundatin-of-Expressjs/BuitInModule/",
   "local-1.js"
 );
+```
+
+- he path module is an essential built-in module in Node.js for handling and manipulating file paths in a way that ensures consistency across different operating systems. It simplifies working with directories and file paths, making it a must-use utility in Node.js projects.
+
+```js
+const path = require("path");
+
+const filePath = "/D:/Projects/NodeApp/index.js";
+
+console.log("Directory Name:", path.dirname(filePath));
+console.log("Base Name:", path.basename(filePath));
+console.log("File Extension:", path.extname(filePath));
+
+console.log("Parsed Path:", path.parse(filePath));
+
+const newPath = path.join("/D:/Projects/NodeApp/", "logs", "app.log");
+console.log("Joined Path:", newPath);
 ```
 
 ## Module-7-3 Built in File System Module , synchronous vs asynchronous

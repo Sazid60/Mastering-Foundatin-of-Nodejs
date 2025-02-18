@@ -9,10 +9,11 @@
 // const myModule = require('./local-1.js')
 
 // we can also do destructuring
-const {a,add} = require('./local-1.js')
+const { a, add } = require('./local-1.js')
 
 //  in case of destructuring if variable name s are similar we have to use name alias
-const {a :a2,add :add2} = require('./local-2.js')
+const { a: a2, add: add2 } = require('./local-2.js')
+// we have used named alias here
 
 
 // if we just one thing on the export we can use this kind of things 
@@ -23,10 +24,10 @@ const {a :a2,add :add2} = require('./local-2.js')
 // console.log(myModule.add(2,3)); 
 
 // if we do destructuring
-console.log(add(2,3)); 
+console.log(add(2, 3));
 console.log(a);
 
-console.log(add2(2,3)); 
+console.log(add2(2, 3));
 console.log(a2);
 
 console.log(myModule);
