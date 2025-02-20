@@ -1,27 +1,35 @@
 // file.js
-const fs = require('fs')
+// This script demonstrates reading and writing files using Node.js' 'fs' (File System) module.
 
-// __________________ Reading a text
-// fs.readFileSync(path[, options])
-// const readText = fs.readFileSync('./texts/read.txt')
-// console.log(readText);
-// in the console we will get buffer
-{/* <Buffer 4c 6f 72 65 6d 20 69 70 73 75 6d 20 64 6f 6c 6f 72 20 73 69 74 20 61 6d 65 74 2c 20 63 6f 6e 73 65 63 74 65 74 75 72 20 61 64 69 70 69 73 63 69 6e 67 ... 89959 more bytes> */ }
+const fs = require('fs'); // Import the 'fs' module to work with the file system
 
+// __________________ Reading a text file (Synchronous)
+// fs.readFileSync(path[, options]) - Reads the file synchronously and returns its content.
 
-// if we want encoded text we have to use utf-8 with it
-const readText = fs.readFileSync('./texts/read.txt', 'utf-8')
-// console.log(readText);
+// Without specifying an encoding, the data will be returned as a Buffer.
+// const readText = fs.readFileSync('./texts/read.txt');
+// console.log(readText); 
+// Output: <Buffer 4c 6f 72 65 6d 20 69 70 73 75 6d 20 64 6f 6c 6f 72 20 73 69 74 20 ...>
+// This is a binary representation of the file's content.
 
-// __________________ Writing a text a text
-// fs.writeFileSync(file, data[, options])
-const writtenText = fs.writeFileSync('./texts/write.txt', readText + ' This is my written text');
-  console.log('File written successfully');
+// To get human-readable text, specify 'utf-8' encoding.
+const readText = fs.readFileSync('./texts/read.txt', 'utf-8');
+console.log('Read Text:', readText); // This will print the actual text content of the file.
 
-  const readWrittenText = fs.readFileSync('./texts/write.txt', 'utf-8')
+// __________________ Writing to a text file (Synchronous)
+// fs.writeFileSync(file, data[, options]) - Writes data to a file synchronously.
 
-  console.log(readWrittenText);
-  
-//   - This is happening in synchronous way. and this is a blocking behavior.
+// Writing the content of 'read.txt' to 'write.txt' and appending additional text.
+fs.writeFileSync('./texts/write.txt', readText + ' This is my written text.');
+console.log('File written successfully.');
 
-// - If we work files like this like we want works to be done in parallel way we have to do in asynchronous way. This is node.js architecture. we will send the heave tasks to the thread pool.
+// Reading the newly written file to verify its content
+const readWrittenText = fs.readFileSync('./texts/write.txt', 'utf-8');
+console.log('Written File Content:', readWrittenText);
+
+// Explanation:
+// - This process is synchronous, meaning the execution is blocked until the file operations are completed.
+// - If we have multiple tasks running, this blocking behavior can slow down performance.
+// - To handle file operations without blocking the main thread, we should use asynchronous methods (fs.readFile & fs.writeFile).
+// - In Node.js, I/O-heavy operations should be delegated to the thread pool for better efficiency.
+
