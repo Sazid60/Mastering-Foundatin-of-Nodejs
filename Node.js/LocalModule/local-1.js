@@ -1,16 +1,35 @@
 // local-1.js
 
-// this is already in common js modular system by default so its isolated and globally not accessible 
-const add = (param1, param2) => param1 + param2
+// This file is already in the CommonJS module system by default, 
+// meaning all variables and functions are isolated within this file 
+// and are not globally accessible unless explicitly exported.
 
+// Function to add two numbers
+const add = (param1, param2) => param1 + param2;
+
+// A simple variable declaration
 const a = 10;
 
-// module.exports = add // if we want to set one 
-// if we want to sett multiple things to be exported we have to make an object and set in export object
-module.exports = {
-    a, add
-}
-// if we do this we have to use console.log(myModule.add(2,3)) type things in where we want to import;
+// Exporting a single function
+// module.exports = add; 
+// If we do this, we can only export one entity, and the file importing it would use: 
+// const add = require('./local-1');  
+// Then we could call the function directly as: add(2, 3)
 
-// this means we are adding (add function) into the modules export object which will make the function accessible in other files
+// Exporting multiple values (both function and variable)
+// When we need to export multiple values, we assign them as properties of an object.
+module.exports = {
+    a,  // Exporting the variable `a`
+    add // Exporting the function `add`
+};
+
+// Now, in another file where we import this module, we must access the properties of the exported object:
+// const myModule = require('./local-1');
+// console.log(myModule.add(2, 3));  // Accessing the `add` function
+// console.log(myModule.a);  // Accessing the variable `a`
+
+// This means we are adding the `add` function and variable `a` 
+// to the module’s `exports` object, making them accessible in other files.
+
+// Logging the `module` object to see its structure and contents
 console.log(module);
